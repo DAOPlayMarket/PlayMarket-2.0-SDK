@@ -3,6 +3,7 @@ package com.blockchain.store.playmarketsdk.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -20,9 +21,6 @@ public class PurchaseVerifierService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
-        // Gets data from the incoming Intent
-        String dataString = workIntent.getDataString();
-
         if (shouldCheckIfPurchased()) {
             Log.d("PMSDK", "Will Verify Purchase");
         } else {
@@ -35,7 +33,8 @@ public class PurchaseVerifierService extends IntentService {
         long installTime = 0;
         try {
             installTime = getInstallTime();
-            return installTime < installTime + 5;
+            long time = System.currentTimeMillis();
+            return time > installTime + 3600000;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return false;
@@ -45,8 +44,8 @@ public class PurchaseVerifierService extends IntentService {
 
     public long getInstallTime() throws PackageManager.NameNotFoundException {
         PackageManager pm = this.getPackageManager();
-        ApplicationInfo appInfo = pm.getApplicationInfo(this.getPackageName(), 0);
-        String appFile = appInfo.sourceDir;
-        return new File(appFile).lastModified();
+
+        PackageInfo packageInfo = pm.getPackageInfo(this.getPackageName(), PackageManager.GET_PERMISSIONS);
+        return packageInfo.firstInstallTime;
     }
 }
