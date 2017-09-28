@@ -26,5 +26,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'de.measite.minidns:minidns-hla:0.2.2'
+    compile 'org.apache.httpcomponents:httpclient:4.2.3'
     testCompile 'junit:junit:4.12'
+    compile 'org.apache.httpcomponents:httpclient:4.2.3'
+    compile 'cz.msebera.android:httpclient:4.4.1.2'
 }
