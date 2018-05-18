@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.blockchain.store.playmarketsdk.utilites.NonSwipeableViewPager
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transfer_viewPager"
+    android:layout_width="match_parent"
+    android:layout_height="340dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+</com.blockchain.store.playmarketsdk.utilites.NonSwipeableViewPager>

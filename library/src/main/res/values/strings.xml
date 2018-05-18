@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">PlayMarket 2.0</string>
+    <string name="continue_button">Continue</string>
+    <string name="retry_button">Retry</string>
+    <string name="cancel_button">Cancel</string>
+
+    <string name="account_id">From:</string>
+    <string name="account_balance">Your balance:</string>
+    <string name="content_price">Amount:</string>
+
+    <string name="eth">eth</string>
+    <string name="wei">wei</string>
+    <string name="change_details">Change payment details</string>
+    <string name="password">Password</string>
+    <string name="failed_to_load_account_data">Failed to load account data. Tap to retry.</string>
+    <string name="failed_to_load_balance_tap_to_retry">Failed to load balance. Tap to retry</string>
+    <string name="the_transaction_is_created_successfully">The Transaction is created successfully!</string>
+    <string name="no_playmarket_found_msg">No Playmarket 2.0 found on your device!\nPlease install app and try again.</string>
+    <string name="install_app">Install App</string>
+    <string name="to">To:</string>
+    <string name="cant_reach_server">Can\'t reach server, please check internet connection.</string>
+    <string name="wrong_password">Wrong password!</string>
+    <string name="try_again">Try again</string>
+    <string name="login_not_provided_error">Please, login to Playmarket 2.0 to proceed</string>
+    <string name="transaction_details">Transaction details:</string>
+
+
+</resources>
