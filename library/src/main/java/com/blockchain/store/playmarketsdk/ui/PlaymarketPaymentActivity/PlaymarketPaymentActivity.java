@@ -70,6 +70,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     public static void start(Context context, PaymentObject paymentObject) {
         Intent starter = new Intent(context, PlaymarketPaymentActivity.class);
         starter.putExtra(PAYMENT_ARGS, paymentObject);
+        starter.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
     }
 
@@ -221,7 +222,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     }
 
     void onCancelButtonClicked() {
-        onBackPressed();
+        finish();
     }
 
     void onContinueTransferClicked() {
@@ -332,7 +333,8 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     }
 
     private void handleTransactionCreation(String stringExtra) {
-
+        setResult(RESULT_OK);
+        finish();
     }
 
     private void handleBroadCastData(Intent intent) {
