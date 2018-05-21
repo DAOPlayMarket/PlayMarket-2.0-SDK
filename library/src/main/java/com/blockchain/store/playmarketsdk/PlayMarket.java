@@ -15,6 +15,8 @@ import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity.PlaymarketPaymentActivity;
 import com.blockchain.store.playmarketsdk.utilites.Constants;
 
+import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
+
 public class PlayMarket {
     private static Intent getIntent() {
         Intent intent = new Intent();
@@ -66,14 +68,6 @@ public class PlayMarket {
         new PlaymarketNotInstalledDialog().show(fragmentManager, "install_pm_dialog");
     }
 
-    private static boolean isPlaymarketInstalled(Context context) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo("com.blockchain.store.playmarket", PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
+
 
 }

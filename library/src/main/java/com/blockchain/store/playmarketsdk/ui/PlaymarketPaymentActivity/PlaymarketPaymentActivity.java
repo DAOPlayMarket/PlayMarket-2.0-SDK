@@ -21,11 +21,13 @@ import android.widget.Toast;
 import com.blockchain.store.playmarketsdk.PlayMarket;
 import com.blockchain.store.playmarketsdk.R;
 import com.blockchain.store.playmarketsdk.entities.PaymentObject;
+import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 import com.blockchain.store.playmarketsdk.utilites.Constants;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
 import static com.blockchain.store.playmarketsdk.utilites.Constants.EXTRA_METHOD_ERROR;
 import static com.blockchain.store.playmarketsdk.utilites.Constants.EXTRA_METHOD_NAME;
 import static com.blockchain.store.playmarketsdk.utilites.Constants.EXTRA_METHOD_RESULT;
@@ -75,6 +77,9 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_purchase_info);
+        if (!isPlaymarketInstalled(this)) {
+            new PlaymarketNotInstalledDialog().show(getSupportFragmentManager(), "install_pm_dialog");
+        }
         bindViews();
         paymentObject = getIntent().getParcelableExtra(PAYMENT_ARGS);
         setReceiver();
@@ -368,7 +373,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
     }
