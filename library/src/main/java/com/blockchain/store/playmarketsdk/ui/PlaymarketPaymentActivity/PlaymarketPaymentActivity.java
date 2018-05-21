@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -72,6 +73,13 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         starter.putExtra(PAYMENT_ARGS, paymentObject);
         starter.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
+    }
+
+    public static void startForResult(Activity activity, int resultCode, PaymentObject paymentObject) {
+        Intent starter = new Intent(activity.getBaseContext(), PlaymarketPaymentActivity.class);
+        starter.putExtra(PAYMENT_ARGS, paymentObject);
+        starter.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivityForResult(starter, resultCode);
     }
 
     @Override

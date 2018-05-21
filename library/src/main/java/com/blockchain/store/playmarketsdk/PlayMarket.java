@@ -46,8 +46,9 @@ public class PlayMarket {
 
     }
 
-    public static void openPaymentDialog(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, AppCompatActivity appCompatActivity) {
-        openPaymentDialog(paymentAddress, priceInWei, appName, paymentDescription, paymentId, appCompatActivity.getSupportFragmentManager(), appCompatActivity.getBaseContext());
+    public static void openPaymentDialogTest(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, AppCompatActivity appCompatActivity, int requestCode) {
+        PaymentObject paymentObject = new PaymentObject(paymentAddress, priceInWei, appName, paymentDescription, paymentId);
+        PlaymarketPaymentActivity.startForResult(appCompatActivity, requestCode, paymentObject);
     }
 
     public static void openPaymentDialog(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, Fragment fragment) {
@@ -67,7 +68,6 @@ public class PlayMarket {
     public static void openPlaymarketNotInstalledDialog(FragmentManager fragmentManager) {
         new PlaymarketNotInstalledDialog().show(fragmentManager, "install_pm_dialog");
     }
-
 
 
 }
