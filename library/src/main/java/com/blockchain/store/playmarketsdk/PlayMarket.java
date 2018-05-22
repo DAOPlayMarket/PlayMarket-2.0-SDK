@@ -3,7 +3,6 @@ package com.blockchain.store.playmarketsdk;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.blockchain.store.playmarketsdk.entities.PaymentObject;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity.PlaymarketPaymentActivity;
-import com.blockchain.store.playmarketsdk.utilites.Constants;
+import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 
 import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
 
@@ -26,27 +25,27 @@ public class PlayMarket {
 
     public static void connectToPlayMarket(Context context) {
         Intent intent = getIntent();
-        intent.putExtra(Constants.EXTRA_METHOD_NAME, Constants.METHOD_GET_BALANCE);
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_BALANCE);
         context.startService(intent);
     }
 
     public static void getPlaymarketUser(Context context) {
         Intent intent = getIntent();
-        intent.putExtra(Constants.EXTRA_METHOD_NAME, Constants.METHOD_GET_ACCOUNT);
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_ACCOUNT);
         context.startService(intent);
     }
 
     public static void createTx(Context context, String transferAmountInWei, String recipientAddress, String userPassword) {
         Intent intent = getIntent();
-        intent.putExtra(Constants.EXTRA_METHOD_NAME, Constants.METHOD_TRANSACTION);
-        intent.putExtra(Constants.VALUE_TRANSFER_AMOUNT, transferAmountInWei);
-        intent.putExtra(Constants.VALUE_RECIPIENT_ADDRESS, recipientAddress);
-        intent.putExtra(Constants.VALUE_PASSWORD, userPassword);
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_TRANSACTION);
+        intent.putExtra(PlaymarketConstants.VALUE_TRANSFER_AMOUNT, transferAmountInWei);
+        intent.putExtra(PlaymarketConstants.VALUE_RECIPIENT_ADDRESS, recipientAddress);
+        intent.putExtra(PlaymarketConstants.VALUE_PASSWORD, userPassword);
         context.startService(intent);
 
     }
 
-    public static void openPaymentDialogTest(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, AppCompatActivity appCompatActivity, int requestCode) {
+    public static void openPaymentScreen(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, AppCompatActivity appCompatActivity, int requestCode) {
         PaymentObject paymentObject = new PaymentObject(paymentAddress, priceInWei, appName, paymentDescription, paymentId);
         PlaymarketPaymentActivity.startForResult(appCompatActivity, requestCode, paymentObject);
     }

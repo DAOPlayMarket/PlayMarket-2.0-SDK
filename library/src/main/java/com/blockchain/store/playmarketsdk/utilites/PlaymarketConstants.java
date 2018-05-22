@@ -1,6 +1,6 @@
 package com.blockchain.store.playmarketsdk.utilites;
 
-public class Constants {
+public class PlaymarketConstants {
     public static final String EXTRA_METHOD_NAME = "method_name";
     public static final String METHOD_GET_BALANCE = "method_get_balance";
     public static final String METHOD_TRANSACTION = "method_get_transaction";
@@ -17,5 +17,6 @@ public class Constants {
     public static final String ETHEREUM_DIVIDER = "1000000000000000000";
     public static final String DEFAULT_EMPTY_STRING = "...";
     public static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
+    public static final String PM_TX_RESULT = "pm_tx_result";
 
 }

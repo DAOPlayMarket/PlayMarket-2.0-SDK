@@ -23,6 +23,10 @@
     <string name="try_again">Try again</string>
     <string name="login_not_provided_error">Please, login to Playmarket 2.0 to proceed</string>
     <string name="transaction_details">Transaction details:</string>
+    <string name="account_balance_not_loaded">Account balance is not loaded</string>
+    <string name="account_address_not_loaded">Account address is not loaded</string>
+    <string name="empty_field">This field can not be empty</string>
+    <string name="not_enough_balance">Not enough balance</string>
 
 
 </resources>
