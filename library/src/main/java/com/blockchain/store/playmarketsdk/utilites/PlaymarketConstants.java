@@ -18,5 +18,6 @@ public class PlaymarketConstants {
     public static final String DEFAULT_EMPTY_STRING = "...";
     public static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
     public static final String PM_TX_RESULT = "pm_tx_result";
+    public static final String PAYMENT_ID_RESULT = "payment_id_result";
 
 }

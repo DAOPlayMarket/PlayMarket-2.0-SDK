@@ -32,33 +32,33 @@ import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlay
 import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.EXTRA_METHOD_ERROR;
 import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.EXTRA_METHOD_NAME;
 import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.EXTRA_METHOD_RESULT;
+import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.PAYMENT_ID_RESULT;
 import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.PM_TX_RESULT;
 
 public class PlaymarketPaymentActivity extends AppCompatActivity {
     private static final String TAG = "PurchaseInfoFragment";
     private static final String PAYMENT_ARGS = "payment_args";
 
-    TextView priceTextView;
-    ImageView applicationIcon;
-    TextView purchaseDescriptionTitle;
-    TextView purchaseApplicationName;
-    ProgressBar accountAddressProgressBar;
-    ProgressBar accountBalanceProgressBar;
-    LinearLayout buttons_linearLayout;
-    TextView accountAddress;
-    TextView accountBalance;
-    EditText passwordEditText;
-    TextView balanceCurrency;
-    TextInputLayout password_inputLayout;
-    Button cancelTransferButton;
-    Button continueTransferButton;
-    Button tryAgainTransferButton;
-    ProgressBar txProgressBar;
-    TextView appDescription;
-    TextView hostAddress;
-    LinearLayout errorHolder;
-    TextView errorText;
-
+    private TextView priceTextView;
+    private ImageView applicationIcon;
+    private TextView purchaseDescriptionTitle;
+    private TextView purchaseApplicationName;
+    private ProgressBar accountAddressProgressBar;
+    private ProgressBar accountBalanceProgressBar;
+    private LinearLayout buttons_linearLayout;
+    private TextView accountAddress;
+    private TextView accountBalance;
+    private EditText passwordEditText;
+    private TextView balanceCurrency;
+    private TextInputLayout password_inputLayout;
+    private Button cancelTransferButton;
+    private Button continueTransferButton;
+    private Button tryAgainTransferButton;
+    private ProgressBar txProgressBar;
+    private TextView appDescription;
+    private TextView hostAddress;
+    private LinearLayout errorHolder;
+    private TextView errorText;
 
     private PaymentObject paymentObject;
     private String userBalance;
@@ -72,14 +72,12 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     public static void start(Context context, PaymentObject paymentObject) {
         Intent starter = new Intent(context, PlaymarketPaymentActivity.class);
         starter.putExtra(PAYMENT_ARGS, paymentObject);
-        starter.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
     }
 
     public static void startForResult(Activity activity, int resultCode, PaymentObject paymentObject) {
         Intent starter = new Intent(activity.getBaseContext(), PlaymarketPaymentActivity.class);
         starter.putExtra(PAYMENT_ARGS, paymentObject);
-        starter.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivityForResult(starter, resultCode);
     }
 
@@ -344,7 +342,10 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private void handleTransactionCreation(String txUrl) {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(PM_TX_RESULT, txUrl);
-        setResult(RESULT_OK,resultIntent);
+        if (paymentObject.getPaymentId() != null) {
+            resultIntent.putExtra(PAYMENT_ID_RESULT, paymentObject.getPaymentId());
+        }
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 
