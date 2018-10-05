@@ -9,17 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.blockchain.store.playmarketsdk.entities.PaymentObject;
+import com.blockchain.store.playmarketsdk.entities.PlaymarketConstants;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity.PlaymarketPaymentActivity;
-import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 
 import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
 
 public class PlayMarket {
     private static Intent getIntent() {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.blockchain.store.playmarket", "com.blockchain.store.playmarket.services.RemoteService"));
+        intent.setComponent(new ComponentName("com.blockchain.store.playmarket", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
         return intent;
     }
 
@@ -29,21 +28,13 @@ public class PlayMarket {
         context.startService(intent);
     }
 
+
     public static void getPlaymarketUser(Context context) {
         Intent intent = getIntent();
         intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_ACCOUNT);
         context.startService(intent);
     }
 
-    public static void createTx(Context context, String transferAmountInWei, String recipientAddress, String userPassword) {
-        Intent intent = getIntent();
-        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_TRANSACTION);
-        intent.putExtra(PlaymarketConstants.VALUE_TRANSFER_AMOUNT, transferAmountInWei);
-        intent.putExtra(PlaymarketConstants.VALUE_RECIPIENT_ADDRESS, recipientAddress);
-        intent.putExtra(PlaymarketConstants.VALUE_PASSWORD, userPassword);
-        context.startService(intent);
-
-    }
 
     public static void openPaymentScreen(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, AppCompatActivity appCompatActivity, int requestCode) {
         PaymentObject paymentObject = new PaymentObject(paymentAddress, priceInWei, appName, paymentDescription, paymentId);
@@ -69,4 +60,20 @@ public class PlayMarket {
     }
 
 
+    public static void test(Context context) {
+        String objectId = "1";
+        String priceInDollars = "1";
+        String packageName = "com.blockchain.store.playmarket";
+        String password = "123123123";
+
+        Intent intent = getIntent();
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_TRANSACTION);
+        intent.putExtra(PlaymarketConstants.TRANSFER_TRANSACTION_TYPE, PlaymarketConstants.TRANSACTION_BUY_OBJECT);
+        intent.putExtra(PlaymarketConstants.TRANSFER_PRICE, priceInDollars);
+        intent.putExtra(PlaymarketConstants.TRANSFER_PACKAGE_NAME, packageName);
+        intent.putExtra(PlaymarketConstants.TRANSFER_PASSWORD, password);
+        intent.putExtra(PlaymarketConstants.TRANSFER_OBJECT_ID, objectId);
+        context.startService(intent);
+
+    }
 }

@@ -4,7 +4,6 @@
     package="com.blockchain.store.playmarketsdk">
 
     <application android:theme="@style/dialog_AppTheme">
-
         <receiver
             android:name=".receiver.PlaymarketResultReceiver"
             android:enabled="true"

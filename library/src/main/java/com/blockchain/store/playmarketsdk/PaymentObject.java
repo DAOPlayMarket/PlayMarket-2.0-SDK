@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarketsdk.entities;
+package com.blockchain.store.playmarketsdk;
 
 import android.os.Parcel;
 import android.os.Parcelable;
