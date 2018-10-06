@@ -26,11 +26,14 @@ public class PlaymarketConstants {
     public static final String TRANSFER_OBJECT_ID = "transfer_object_id";
 
     /*Transaction types*/
-    public static final int TRANSACTION_BUY = 0;
     public static final int TRANSACTION_BUY_OBJECT = 1;
     public static final int TRANSACTION_BUY_OBJECT_WITH_PRICE_CHECK = 2;
     public static final int TRANSACTION_BUY_SUB = 3;
     public static final int TRANSACTION_BUY_SUB_WITH_PRICE = 4;
 
+    /*Return constants*/
+    public static final String PM_RESULT_STRING = "playmarket_result";
+
     public static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
+    public static String DEFAULT_EMPTY_STRING = " - ";
 }

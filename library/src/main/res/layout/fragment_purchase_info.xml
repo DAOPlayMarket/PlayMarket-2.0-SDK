@@ -23,6 +23,7 @@
             android:layout_height="50dp"
             android:scaleType="center"
             android:src="@mipmap/ic_launcher"
+            android:visibility="gone"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
@@ -34,8 +35,6 @@
                 android:id="@+id/purchased_content_textVIew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
                 android:textColor="@color/textGray"
                 android:textStyle="bold"
                 tools:text="Some purchase content" />
@@ -44,8 +43,7 @@
                 android:id="@+id/app_name_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
+
                 tools:text="Some app name" />
         </LinearLayout>
 
@@ -53,10 +51,11 @@
 
     <TextView
         android:id="@+id/app_description"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:maxLines="4"
+        android:verticalScrollbarPosition="right"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content_info_layout" />
@@ -106,37 +105,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         tools:text="0xdB2301db944a59680619F86017418EBb10b***4b" />
 
-    <TextView
-        android:id="@+id/host_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_left_margin"
-        android:text="@string/to"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_address_field" />
-
-    <TextView
-        android:id="@+id/host_address_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_left_margin"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/host_address"
-        tools:text="0x544736874653" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:layout_marginStart="@dimen/default_left_margin"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="@string/content_price"
         android:textAllCaps="true"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/host_address_field" />
+        app:layout_constraintTop_toBottomOf="@+id/account_address_field" />
 
     <TextView
         android:id="@+id/price_textView"

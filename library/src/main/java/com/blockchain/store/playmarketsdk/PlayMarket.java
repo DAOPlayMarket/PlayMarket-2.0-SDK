@@ -1,13 +1,12 @@
 package com.blockchain.store.playmarketsdk;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.blockchain.store.playmarketsdk.entities.PlaymarketConstants;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
@@ -16,6 +15,49 @@ import com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity.Playmarke
 import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
 
 public class PlayMarket {
+    private PaymentObject paymentObject = new PaymentObject();
+
+    public PlayMarket setAppName(String appName) {
+        paymentObject.setAppName(appName);
+        return this;
+    }
+
+    public PlayMarket setPriceInUnit(String priceInUnit) {
+        paymentObject.setPriceInUnit(priceInUnit);
+        return this;
+    }
+
+    public PlayMarket setDescription(String paymentDescription) {
+        paymentObject.setPaymentDescription(paymentDescription);
+        return this;
+    }
+
+    public PlayMarket setOjectId(String objectId) {
+        paymentObject.setObjectId(objectId);
+        return this;
+    }
+
+    public PlayMarket setTransactionType(int transactionType) {
+        paymentObject.setTransactionType(transactionType);
+        return this;
+    }
+
+    public void build(Context context) {
+        openPaymentDialog(context);
+    }
+
+    public void buildWithResult(Activity activity, int RESULT_CODE) {
+        openPaymentDialog(activity, RESULT_CODE);
+    }
+
+    public void openPaymentDialog(Context context) {
+        PlaymarketPaymentActivity.start(context, this.paymentObject);
+    }
+
+    public void openPaymentDialog(Activity activity, int RESULT_CODE) {
+        PlaymarketPaymentActivity.startForResult(activity, paymentObject, RESULT_CODE);
+    }
+
     private static Intent getIntent() {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.blockchain.store.playmarket", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
@@ -34,31 +76,6 @@ public class PlayMarket {
         intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_ACCOUNT);
         context.startService(intent);
     }
-
-
-    public static void openPaymentScreen(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, AppCompatActivity appCompatActivity, int requestCode) {
-        PaymentObject paymentObject = new PaymentObject(paymentAddress, priceInWei, appName, paymentDescription, paymentId);
-        PlaymarketPaymentActivity.startForResult(appCompatActivity, requestCode, paymentObject);
-    }
-
-    public static void openPaymentDialog(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, Fragment fragment) {
-        openPaymentDialog(paymentAddress, priceInWei, appName, paymentDescription, paymentId, fragment.getActivity().getSupportFragmentManager(), fragment.getActivity().getBaseContext());
-    }
-
-    public static void openPaymentDialog(@NonNull String paymentAddress, @NonNull String priceInWei, @NonNull String appName, @NonNull String paymentDescription, @Nullable String paymentId, FragmentManager fragmentManager, Context context) {
-        if (isPlaymarketInstalled(context)) {
-            PaymentObject paymentObject = new PaymentObject(paymentAddress, priceInWei, appName, paymentDescription, paymentId);
-            PlaymarketPaymentActivity.start(context, paymentObject);
-
-        } else {
-            new PlaymarketNotInstalledDialog().show(fragmentManager, "install_pm_dialog");
-        }
-    }
-
-    public static void openPlaymarketNotInstalledDialog(FragmentManager fragmentManager) {
-        new PlaymarketNotInstalledDialog().show(fragmentManager, "install_pm_dialog");
-    }
-
 
     public static void test(Context context) {
         String objectId = "1";

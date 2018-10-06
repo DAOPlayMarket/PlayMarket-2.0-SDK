@@ -23,9 +23,15 @@ import com.blockchain.store.playmarketsdk.PlayMarket;
 import com.blockchain.store.playmarketsdk.R;
 import com.blockchain.store.playmarketsdk.PaymentObject;
 import com.blockchain.store.playmarketsdk.entities.PlaymarketConstants;
+import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
+import static com.blockchain.store.playmarketsdk.entities.PlaymarketConstants.EXTRA_METHOD_ERROR;
+import static com.blockchain.store.playmarketsdk.entities.PlaymarketConstants.EXTRA_METHOD_NAME;
+import static com.blockchain.store.playmarketsdk.entities.PlaymarketConstants.EXTRA_METHOD_RESULT;
+import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
 
 
 public class PlaymarketPaymentActivity extends AppCompatActivity {
@@ -49,7 +55,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private Button tryAgainTransferButton;
     private ProgressBar txProgressBar;
     private TextView appDescription;
-    private TextView hostAddress;
     private LinearLayout errorHolder;
     private TextView errorText;
 
@@ -68,23 +73,23 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         context.startActivity(starter);
     }
 
-    public static void startForResult(Activity activity, int resultCode, PaymentObject paymentObject) {
+    public static void startForResult(Activity activity, PaymentObject paymentObject, int RESULT_CODE) {
         Intent starter = new Intent(activity.getBaseContext(), PlaymarketPaymentActivity.class);
         starter.putExtra(PAYMENT_ARGS, paymentObject);
-        activity.startActivityForResult(starter, resultCode);
+        activity.startActivityForResult(starter, RESULT_CODE);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_purchase_info);
-//        if (!isPlaymarketInstalled(this)) {
-//            new PlaymarketNotInstalledDialog().show(getSupportFragmentManager(), "install_pm_dialog");
-//        }
-//        bindViews();
+        if (!isPlaymarketInstalled(this)) {
+            new PlaymarketNotInstalledDialog().show(getSupportFragmentManager(), "install_pm_dialog");
+        }
+        bindViews();
         paymentObject = getIntent().getParcelableExtra(PAYMENT_ARGS);
         setReceiver();
-//        setUpFields(paymentObject);
+        setUpFields(paymentObject);
         loadFirstData();
     }
 
@@ -106,27 +111,12 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         tryAgainTransferButton = findViewById(R.id.repeat_transfer_button);
         txProgressBar = findViewById(R.id.tx_create_progress_bar);
         appDescription = findViewById(R.id.app_description);
-        hostAddress = findViewById(R.id.host_address_field);
         errorHolder = findViewById(R.id.error_holder);
         errorText = findViewById(R.id.error_text);
-        cancelTransferButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCancelButtonClicked();
-            }
-        });
-        continueTransferButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onContinueTransferClicked();
-            }
-        });
-        tryAgainTransferButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRepeatClicked();
-            }
-        });
+
+        cancelTransferButton.setOnClickListener(v -> onCancelButtonClicked());
+        continueTransferButton.setOnClickListener(v -> onContinueTransferClicked());
+        tryAgainTransferButton.setOnClickListener(v -> onRepeatClicked());
     }
 
     private void loadFirstData() {
@@ -137,12 +127,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         mMessageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                try {
-                    logAllData(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-//                handleBroadCastData(intent);
+                handleBroadCastData(intent);
             }
         };
 
@@ -151,9 +136,8 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private void setUpFields(PaymentObject paymentObject) {
         purchaseDescriptionTitle.setText(paymentObject.getPaymentDescription());
         purchaseApplicationName.setText(paymentObject.getAppName());
-        BigDecimal priceDecimal = new BigDecimal(paymentObject.getPriceInWei());
+        BigDecimal priceDecimal = new BigDecimal(paymentObject.getPriceInUnit());
         priceTextView.setText(priceDecimal.toEngineeringString());
-        hostAddress.setText(paymentObject.getPaymentAddress());
     }
 
     private void onUserAccountReady(String userAccount) {
@@ -170,7 +154,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
             handleUserNotProvided();
         }
         accountAddressProgressBar.setVisibility(View.GONE);
-//        accountAddress.setText(PlaymarketConstants.DEFAULT_EMPTY_STRING);
+        accountAddress.setText(PlaymarketConstants.DEFAULT_EMPTY_STRING);
         accountBalanceProgressBar.setVisibility(View.GONE);
     }
 
@@ -178,11 +162,10 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         onUserAccountError(methodResult);
     }
 
-    private void onUserBalanceReady(String userBalance) {
-        BigDecimal priceDecimal = new BigDecimal(userBalance);
-//        priceDecimal = priceDecimal.divide(new BigDecimal(PlaymarketConstants.ETHEREUM_DIVIDER));
+    private void onUserBalanceReady(String userBalanceInWei) {
+        BigDecimal priceDecimal = new BigDecimal(userBalanceInWei);
         accountBalance.setText(priceDecimal.toEngineeringString());
-        this.userBalance = userBalance;
+        this.userBalance = userBalanceInWei;
         balanceCurrency.setVisibility(View.VISIBLE);
         accountBalanceProgressBar.setVisibility(View.GONE);
         accountBalance.setVisibility(View.VISIBLE);
@@ -203,7 +186,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
             handleDefaultMessage(methodResult);
         }
         accountBalanceProgressBar.setVisibility(View.GONE);
-//        accountBalance.setText(PlaymarketConstants.DEFAULT_EMPTY_STRING);
+        accountBalance.setText(PlaymarketConstants.DEFAULT_EMPTY_STRING);
     }
 
     private void onMethodTransactionError(String methodResult) {
@@ -228,7 +211,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         if (isAllFieldOk()) {
             continueTransferButton.setVisibility(View.GONE);
             txProgressBar.setVisibility(View.VISIBLE);
-//            PlayMarket.createTx(this, paymentObject.getPriceInWei(), paymentObject.getPaymentAddress(), passwordEditText.getText().toString());
+            PlayMarket.test(this);
         }
 
     }
@@ -248,10 +231,14 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
             passwordEditText.setError(getString(R.string.empty_field));
             return false;
         }
-        if (new BigInteger(userBalance).compareTo(new BigInteger(paymentObject.getPriceInWei())) != 1) {
+        if (Double.parseDouble(userBalance) > Double.parseDouble(paymentObject.getPriceInUnit())) {
             Toast.makeText(this, R.string.not_enough_balance, Toast.LENGTH_SHORT).show();
             return false;
         }
+//       if (new BigInteger(userBalance).compareTo(new BigInteger(paymentObject.getPriceInUnit())) != 1) {
+//            Toast.makeText(this, R.string.not_enough_balance, Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 
         return true;
     }
@@ -334,33 +321,33 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private void handleTransactionCreation(String txUrl) {
         Intent resultIntent = new Intent();
 //        resultIntent.putExtra(PM_TX_RESULT, txUrl);
-        if (paymentObject.getPaymentId() != null) {
+        if (paymentObject.getObjectId() != null) {
 //            resultIntent.putExtra(PAYMENT_ID_RESULT, paymentObject.getPaymentId());
         }
         setResult(RESULT_OK, resultIntent);
         finish();
     }
 
-//    private void handleBroadCastData(Intent intent) {
-//        if (intent != null) {
-//            if (intent.hasExtra(EXTRA_METHOD_NAME) && intent.getStringExtra(EXTRA_METHOD_NAME).equalsIgnoreCase(PlaymarketConstants.METHOD_TRANSACTION)) {
-//                if (!intent.hasExtra(EXTRA_METHOD_ERROR)) {
-//                    handleTransactionCreation(intent.getStringExtra(EXTRA_METHOD_RESULT));
-//                } else {
-//                    handleErrorMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_ERROR));
-//                }
-//
-//                return;
-//            }
-//            if (intent.hasExtra(EXTRA_METHOD_ERROR)) {
-//                handleErrorMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_ERROR));
-//            }
-//            if (intent.hasExtra(EXTRA_METHOD_RESULT)) {
-//                handleResultMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_RESULT));
-//            }
-//        }
-//
-//    }
+    private void handleBroadCastData(Intent intent) {
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_METHOD_NAME) && intent.getStringExtra(EXTRA_METHOD_NAME).equalsIgnoreCase(PlaymarketConstants.METHOD_TRANSACTION)) {
+                if (!intent.hasExtra(EXTRA_METHOD_ERROR)) {
+                    handleTransactionCreation(intent.getStringExtra(EXTRA_METHOD_RESULT));
+                } else {
+                    handleErrorMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_ERROR));
+                }
+
+                return;
+            }
+            if (intent.hasExtra(EXTRA_METHOD_ERROR)) {
+                handleErrorMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_ERROR));
+            }
+            if (intent.hasExtra(EXTRA_METHOD_RESULT)) {
+                handleResultMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_RESULT));
+            }
+        }
+
+    }
 
     private void logAllData(Intent intent) {
         Bundle extras = intent.getExtras();

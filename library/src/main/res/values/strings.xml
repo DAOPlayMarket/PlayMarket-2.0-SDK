@@ -4,7 +4,7 @@
     <string name="retry_button">Retry</string>
     <string name="cancel_button">Cancel</string>
 
-    <string name="account_id">From:</string>
+    <string name="account_id">Your address:</string>
     <string name="account_balance">Your balance:</string>
     <string name="content_price">Amount:</string>
 
