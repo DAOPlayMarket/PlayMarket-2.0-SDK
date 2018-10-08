@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.blockchain.store.playmarketsdk.PlayMarket;
-import com.blockchain.store.playmarketsdk.entities.PlaymarketConstants;
+import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                         .setOjectId("10")
                         .setPriceInUnit("1")
                         .setTransactionType(PlaymarketConstants.TRANSACTION_BUY_OBJECT)
-                        .buildWithResult(MainActivity.this,REQUEST_CODE);
+                        .buildWithResult(MainActivity.this, REQUEST_CODE);
             }
         });
     }
@@ -33,8 +33,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_URL);
+            intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_TXHASH);
+        }
         String result = "";
-        String paymentId = "";
+        String paymentId;
 
     }
 }

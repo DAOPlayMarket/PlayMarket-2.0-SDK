@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,16 +21,17 @@ import android.widget.Toast;
 import com.blockchain.store.playmarketsdk.PlayMarket;
 import com.blockchain.store.playmarketsdk.R;
 import com.blockchain.store.playmarketsdk.PaymentObject;
-import com.blockchain.store.playmarketsdk.entities.PlaymarketConstants;
+import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-import static com.blockchain.store.playmarketsdk.entities.PlaymarketConstants.EXTRA_METHOD_ERROR;
-import static com.blockchain.store.playmarketsdk.entities.PlaymarketConstants.EXTRA_METHOD_NAME;
-import static com.blockchain.store.playmarketsdk.entities.PlaymarketConstants.EXTRA_METHOD_RESULT;
+import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.EXTRA_METHOD_ERROR;
+import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.EXTRA_METHOD_NAME;
+import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.EXTRA_METHOD_RESULT;
 import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
+import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.TRANSACTION_RESULT_TXHASH;
+import static com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants.TRANSACTION_RESULT_URL;
 
 
 public class PlaymarketPaymentActivity extends AppCompatActivity {
@@ -244,7 +244,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     }
 
     public void handleResultMessage(String methodName, String methodResult) {
-        Log.d(TAG, "handleResultMessage() called with: methodName = [" + methodName + "], methodResult = [" + methodResult + "]");
         errorHolder.setVisibility(View.GONE);
         txProgressBar.setVisibility(View.GONE);
         switch (methodName) {
@@ -258,7 +257,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     }
 
     public void handleErrorMessage(String methodName, String methodResult) {
-        Log.d(TAG, "handleErrorMessage() called with: methodName = [" + methodName + "], methodResult = [" + methodResult + "]");
         txProgressBar.setVisibility(View.GONE);
         switch (methodName) {
             case PlaymarketConstants.METHOD_GET_BALANCE:
@@ -318,12 +316,15 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         errorText.setText(R.string.login_not_provided_error);
     }
 
-    private void handleTransactionCreation(String txUrl) {
+    private void handleTransactionCreation(Intent intent) {
         Intent resultIntent = new Intent();
-//        resultIntent.putExtra(PM_TX_RESULT, txUrl);
-        if (paymentObject.getObjectId() != null) {
-//            resultIntent.putExtra(PAYMENT_ID_RESULT, paymentObject.getPaymentId());
-        }
+
+        String rinkebyUrl = intent.getStringExtra(TRANSACTION_RESULT_URL);
+        String txHash = intent.getStringExtra(TRANSACTION_RESULT_TXHASH);
+
+        resultIntent.putExtra(TRANSACTION_RESULT_URL, rinkebyUrl);
+        resultIntent.putExtra(TRANSACTION_RESULT_TXHASH, txHash);
+
         setResult(RESULT_OK, resultIntent);
         finish();
     }
@@ -332,11 +333,10 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         if (intent != null) {
             if (intent.hasExtra(EXTRA_METHOD_NAME) && intent.getStringExtra(EXTRA_METHOD_NAME).equalsIgnoreCase(PlaymarketConstants.METHOD_TRANSACTION)) {
                 if (!intent.hasExtra(EXTRA_METHOD_ERROR)) {
-                    handleTransactionCreation(intent.getStringExtra(EXTRA_METHOD_RESULT));
+                    handleTransactionCreation(intent);
                 } else {
                     handleErrorMessage(intent.getStringExtra(EXTRA_METHOD_NAME), intent.getStringExtra(EXTRA_METHOD_ERROR));
                 }
-
                 return;
             }
             if (intent.hasExtra(EXTRA_METHOD_ERROR)) {
@@ -347,16 +347,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    private void logAllData(Intent intent) {
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            for (String key : extras.keySet()) {
-                Object keyValue = extras.get(key);
-                Log.d(TAG, "logAllData: key = " + key + ", value = " + keyValue);
-            }
-        }
     }
 
     @Override

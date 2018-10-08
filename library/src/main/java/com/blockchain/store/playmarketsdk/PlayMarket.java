@@ -4,15 +4,9 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 
-import com.blockchain.store.playmarketsdk.entities.PlaymarketConstants;
-import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
+import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity.PlaymarketPaymentActivity;
-
-import static com.blockchain.store.playmarketsdk.helpers.PlayMarketHelper.isPlaymarketInstalled;
 
 public class PlayMarket {
     private PaymentObject paymentObject = new PaymentObject();
@@ -60,7 +54,8 @@ public class PlayMarket {
 
     private static Intent getIntent() {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.blockchain.store.playmarket", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
+        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.testnet", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
+//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.mainnet", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
         return intent;
     }
 
