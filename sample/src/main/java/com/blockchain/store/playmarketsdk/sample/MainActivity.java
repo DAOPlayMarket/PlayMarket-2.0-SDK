@@ -17,28 +17,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        findViewById(R.id.button).setOnClickListener(view->
                 new PlayMarket().setAppName("App name")
-                        .setDescription("Payment description")
-                        .setOjectId("10")
-                        .setPriceInUnit("1")
-                        .setTransactionType(PlaymarketConstants.TRANSACTION_BUY_OBJECT)
-                        .buildWithResult(MainActivity.this, REQUEST_CODE);
-            }
-        });
+                .setDescription("Payment description")
+                .setOjectId("10")
+                .setPriceInUnit("1")
+                .setTransactionType(PlaymarketConstants.TRANSACTION_BUY_OBJECT)
+                .buildWithResult(MainActivity.this, REQUEST_CODE));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_URL);
-            intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_TXHASH);
+            String resultUrl = intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_URL);
+            String transactionHash = intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_TXHASH);
         }
-        String result = "";
-        String paymentId;
-
     }
 }
