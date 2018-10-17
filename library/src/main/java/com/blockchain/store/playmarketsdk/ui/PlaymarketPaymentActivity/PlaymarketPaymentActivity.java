@@ -44,7 +44,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private TextView purchaseApplicationName;
     private ProgressBar accountAddressProgressBar;
     private ProgressBar accountBalanceProgressBar;
-    private LinearLayout buttons_linearLayout;
     private TextView accountAddress;
     private TextView accountBalance;
     private EditText passwordEditText;
@@ -54,7 +53,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private Button continueTransferButton;
     private Button tryAgainTransferButton;
     private ProgressBar txProgressBar;
-    private TextView appDescription;
     private LinearLayout errorHolder;
     private TextView errorText;
 
@@ -100,7 +98,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         purchaseApplicationName = findViewById(R.id.app_name_textView);
         accountAddressProgressBar = findViewById(R.id.account_address_progress_bar);
         accountBalanceProgressBar = findViewById(R.id.account_balance_progress_bar);
-        buttons_linearLayout = findViewById(R.id.buttons_linearLayout);
         accountAddress = findViewById(R.id.account_address_field);
         accountBalance = findViewById(R.id.account_balance_field);
         passwordEditText = findViewById(R.id.password_editText);
@@ -110,7 +107,6 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         continueTransferButton = findViewById(R.id.continue_transfer_button);
         tryAgainTransferButton = findViewById(R.id.repeat_transfer_button);
         txProgressBar = findViewById(R.id.tx_create_progress_bar);
-        appDescription = findViewById(R.id.app_description);
         errorHolder = findViewById(R.id.error_holder);
         errorText = findViewById(R.id.error_text);
 
@@ -352,7 +348,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("RemoteService"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("PlayMarketSDK"));
     }
 
     @Override

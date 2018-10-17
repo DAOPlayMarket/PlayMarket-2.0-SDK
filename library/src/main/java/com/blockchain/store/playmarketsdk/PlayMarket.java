@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 
 import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketPaymentActivity.PlaymarketPaymentActivity;
@@ -54,8 +55,8 @@ public class PlayMarket {
 
     private static Intent getIntent() {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.testnet", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
-//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.mainnet", "com.blockchain.store.PurchaseSDK.services.RemoteService"));
+        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.testnet", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
+//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.mainnet", "com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"));
         return intent;
     }
 
@@ -87,5 +88,27 @@ public class PlayMarket {
         intent.putExtra(PlaymarketConstants.TRANSFER_OBJECT_ID, objectId);
         context.startService(intent);
 
+    }
+
+    public static void checkBuy(Context context) {
+        String packageName = context.getPackageName();
+        packageName = "com.blockchain.store.playmarket";
+
+        Intent intent = getIntent();
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_CHECK_BUY)
+                .putExtra(PlaymarketConstants.TRANSFER_PACKAGE_NAME, packageName)
+                .putExtra(PlaymarketConstants.TRANSFER_OBJECT_ID, "0");
+        ContextCompat.startForegroundService(context,intent);
+    }
+
+    public static void getSubscriptionEllapsedTime(Context context, String objectId) {
+        String packageName = context.getPackageName();
+        packageName = "com.blockchain.store.playmarket";
+
+        Intent intent = getIntent();
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_CHECK_SUBSCRIPTION)
+                .putExtra(PlaymarketConstants.TRANSFER_PACKAGE_NAME, packageName)
+                .putExtra(PlaymarketConstants.TRANSFER_OBJECT_ID, objectId);
+        ContextCompat.startForegroundService(context,intent);
     }
 }

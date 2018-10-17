@@ -16,6 +16,8 @@ public class PlaymarketConstants {
     public static final String EXTRA_METHOD_NAME = "method_name";
     public static final String METHOD_GET_BALANCE = "method_get_balance";
     public static final String METHOD_GET_ACCOUNT = "method_get_account";
+    public static final String METHOD_CHECK_BUY = "method_check_buy";
+    public static final String METHOD_CHECK_SUBSCRIPTION = "method_check_subscription";
 
     public static final String METHOD_TRANSACTION = "method_get_transaction";
 

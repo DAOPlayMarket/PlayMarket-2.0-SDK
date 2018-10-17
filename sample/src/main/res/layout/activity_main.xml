@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
@@ -11,7 +12,23 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test Button"
+        android:text="Test transaction"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="42dp" />
+
+    <Button
+        android:id="@+id/btn_check_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test check buy"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="42dp" />
+
+    <Button
+        android:id="@+id/btn_check_subscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test check subscription"
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="42dp" />
 </LinearLayout>
