@@ -32,13 +32,16 @@ Use one of transaction types:
 To receive the result override onActivityResult method. 
 
 ## Example
+```java
 new PlayMarket().setAppName("App name")
                         .setDescription("Payment description")
                         .setOjectId("10")
                         .setPriceInUnit("1")
                         .setTransactionType(PlaymarketConstants.TRANSACTION_BUY_OBJECT)
                         .build(Context or Activity with RESULT_CODE);
+```
                         
+```java                                           
 @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -47,6 +50,11 @@ new PlayMarket().setAppName("App name")
             String transactionHash = intent.getStringExtra(PlaymarketConstants.TRANSACTION_RESULT_TXHASH);
         }
     }
+```
+
+result - link to https://etherscan.io/.
+transactionHash - hash of generated transaction.
+
 
                         
  
