@@ -43,7 +43,7 @@ public class PlaymarketNotInstalledDialog extends DialogFragment {
     }
 
     private void openGooglePlay() {
-        final String appPackageName = "com.blockchain.store.playmarket";
+        final String appPackageName = "com.blockchain.store.playmarket.mainnet";
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
         } catch (android.content.ActivityNotFoundException anfe) {

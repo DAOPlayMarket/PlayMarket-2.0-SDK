@@ -55,22 +55,22 @@ public class PlayMarket {
 
     private static Intent getIntent() {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.testnet", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
-//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.mainnet", "com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"));
+//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.testnet", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
+        intent.setComponent(new ComponentName("com.blockchain.store.playmarket", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
         return intent;
     }
 
     public static void connectToPlayMarket(Context context) {
         Intent intent = getIntent();
-        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_BALANCE);
-        context.startService(intent);
+        intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_ACCOUNT);
+        ContextCompat.startForegroundService(context,intent);
     }
 
 
     public static void getPlaymarketUser(Context context) {
         Intent intent = getIntent();
         intent.putExtra(PlaymarketConstants.EXTRA_METHOD_NAME, PlaymarketConstants.METHOD_GET_ACCOUNT);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context,intent);
     }
 
     public static void test(Context context) {
@@ -86,7 +86,7 @@ public class PlayMarket {
         intent.putExtra(PlaymarketConstants.TRANSFER_PACKAGE_NAME, packageName);
         intent.putExtra(PlaymarketConstants.TRANSFER_PASSWORD, password);
         intent.putExtra(PlaymarketConstants.TRANSFER_OBJECT_ID, objectId);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context,intent);
 
     }
 

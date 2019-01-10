@@ -12,6 +12,7 @@ public class PlaymarketResultReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "onReceive() called with: context = [" + context + "], intent = [" + intent + "]");
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         try {
             logAllData(intent);

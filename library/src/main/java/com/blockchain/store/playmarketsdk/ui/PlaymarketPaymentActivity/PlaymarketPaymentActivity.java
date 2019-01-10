@@ -5,10 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 import com.blockchain.store.playmarketsdk.PlayMarket;
 import com.blockchain.store.playmarketsdk.R;
 import com.blockchain.store.playmarketsdk.PaymentObject;
+import com.blockchain.store.playmarketsdk.receiver.PlaymarketResultReceiver;
 import com.blockchain.store.playmarketsdk.utilites.PlaymarketConstants;
 import com.blockchain.store.playmarketsdk.ui.PlaymarketNotInstalledDialog;
 
@@ -60,6 +64,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
     private String userBalance;
     private ERROR_CAUSE errorCause;
     private BroadcastReceiver mMessageReceiver;
+    private BroadcastReceiver globalBroadcastReceiver;
 
     private enum ERROR_CAUSE {
         ACCOUNT, BALANCE, TRANSACTION
@@ -89,6 +94,14 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         setReceiver();
         setUpFields(paymentObject);
         loadFirstData();
+        createTestReceiver();
+    }
+
+    private void createTestReceiver() {
+        globalBroadcastReceiver = new PlaymarketResultReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction("PlayMarketSDK");
+        this.registerReceiver(globalBroadcastReceiver, filter);
     }
 
     private void bindViews() {
@@ -123,6 +136,7 @@ public class PlaymarketPaymentActivity extends AppCompatActivity {
         mMessageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "onReceive() called with: context = [" + context + "], intent = [" + intent + "]");
                 handleBroadCastData(intent);
             }
         };
