@@ -34,7 +34,7 @@ public class PlaymarketConstants {
     public static final int TRANSACTION_BUY_OBJECT = 1;
     public static final int TRANSACTION_BUY_OBJECT_WITH_PRICE_CHECK = 2;
     public static final int TRANSACTION_BUY_SUB = 3;
-    public static final int TRANSACTION_BUY_SUB_WITH_PRICE = 4;
+    public static final int TRANSACTION_BUY_SUB_WITH_PRICE_CHECK = 4;
 
     /*Return constants*/
     public static final String PM_RESULT_STRING = "playmarket_result";
