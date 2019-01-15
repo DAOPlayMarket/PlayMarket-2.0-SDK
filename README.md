@@ -51,8 +51,10 @@ new PlayMarket().setAppName("App name")
         }
     }
 ```
+Where:
 
-result - link to https://etherscan.io/.
+resultUrl - link to etherscan.io. (https://etherscan.io/tx/0x00d021f35da36e30f3c269f1e10266e978832df4d67yc3bf6ac3410d508e77fc)
+
 transactionHash - hash of generated transaction.
 
 
