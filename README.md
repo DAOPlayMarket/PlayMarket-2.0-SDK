@@ -6,7 +6,7 @@ DAO PlayMarket 2.0 is a decentralized Android App Store that accepts payments in
 
 Personal freedom is impossible without economic security and independence. Therefore, we created an open, censorship-resistant marketplace using blockchain and smart contracts.
 
-## Instalation
+## Installation
 Add this library to your project.
 
 ## Usage
@@ -18,7 +18,7 @@ Use this method to set the name of your application.
 #### setDescription
 Use this method to set your payment description.
 
-#### setOjectId
+#### setObjectId
 Use this method to set a unique identifier of purchased object.
 
 #### setTransactionType
