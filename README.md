@@ -7,7 +7,12 @@ DAO PlayMarket 2.0 is a decentralized Android App Store that accepts payments in
 Personal freedom is impossible without economic security and independence. Therefore, we created an open, censorship-resistant marketplace using blockchain and smart contracts.
 
 ## Installation
-Add this library to your project.
+Add AAR library to your project.
+Open Android Studio. Go to File -> New -> New Module -> Import Jar/.AAR Package and select downloaded AAR library.
+Then 
+1) go to File -> Project Structure 
+2) select app module, dependencies tab
+3) add this library as module dependency.
 
 ## Usage
 Use the PlayMarket class to bring up the purchase screen.
