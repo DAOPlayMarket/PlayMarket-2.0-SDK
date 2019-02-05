@@ -55,7 +55,7 @@ public class PlayMarket {
 
     private static Intent getIntent() {
         Intent intent = new Intent();
-//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.testnet", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
+//        intent.setComponent(new ComponentName("com.blockchain.store.playmarket.rinkeby", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
         intent.setComponent(new ComponentName("com.blockchain.store.playmarket", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"));
         return intent;
     }
