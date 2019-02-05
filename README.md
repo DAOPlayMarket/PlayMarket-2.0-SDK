@@ -6,8 +6,13 @@ DAO PlayMarket 2.0 is a decentralized Android App Store that accepts payments in
 
 Personal freedom is impossible without economic security and independence. Therefore, we created an open, censorship-resistant marketplace using blockchain and smart contracts.
 
-## Instalation
-Add this library to your project.
+## Installation
+Add AAR library to your project.
+Open Android Studio. Go to File -> New -> New Module -> Import Jar/.AAR Package and select downloaded AAR library.
+Then 
+1) go to File -> Project Structure 
+2) select app module, dependencies tab
+3) add this library as module dependency.
 
 ## Usage
 Use the PlayMarket class to bring up the purchase screen.
@@ -18,7 +23,7 @@ Use this method to set the name of your application.
 #### setDescription
 Use this method to set your payment description.
 
-#### setOjectId
+#### setObjectId
 Use this method to set a unique identifier of purchased object.
 
 #### setTransactionType
@@ -51,9 +56,11 @@ new PlayMarket().setAppName("App name")
         }
     }
 ```
+Where:
 
-result - link to https://etherscan.io/.
-transactionHash - hash of generated transaction.
+resultUrl - link to etherscan.io. (https://etherscan.io/tx/0x00d021f35da36e30f3c269f1e10266e978832df4d67yc3bf6ac3410d508e77fc)
+
+transactionHash - hash of generated transaction. (0x00d021f35da36e30f3c269f1e10266e978832df4d67yc3bf6ac3410d508e77fc)
 
 
                         
